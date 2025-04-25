@@ -13,7 +13,10 @@ router.get('/generate-pdf',(req,res)=>{
 })
 router.post('/generate-pdf',async (req:Request<{},{},PDFRequest>,res:Response)=>{
     const {url,fileName = 'document'} = req.body;
-   const browser = await puppeteer.launch();
+   const browser = await puppeteer.launch({
+    headless:true,
+    args:['--no-sandbox', '--disable-setuid-sandbox']
+   });
    const page = await browser.newPage();
    await page.evaluate((title:string)=>{
     document.title = title;
