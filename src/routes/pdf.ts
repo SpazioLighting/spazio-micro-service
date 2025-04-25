@@ -17,7 +17,8 @@ router.post('/generate-pdf',async (req:Request<{},{},PDFRequest>,res:Response)=>
    const page = await browser.newPage();
    await page.evaluate((title:string)=>{
     document.title = title;
-   },fileName)
+   },fileName);
+
    await page.emulateMediaType('screen');
 
    
