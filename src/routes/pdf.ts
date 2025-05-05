@@ -14,7 +14,7 @@ router.get('/generate-pdf',(req,res)=>{
 router.post('/generate-pdf',async (req:Request<{},{},PDFRequest>,res:Response)=>{
     const {url,fileName = 'document'} = req.body;
    const browser = await puppeteer.launch({
-    executablePath:process.env.NODE_ENV === "production" ? process.env.PUPPETEER_EXECUTABLE_PATH :puppeteer.executablePath(),
+    executablePath:puppeteer.executablePath(),
     headless:true,
     args:['--no-sandbox', '--disable-setuid-sandbox','--single-process','--no-zygote']
    });
