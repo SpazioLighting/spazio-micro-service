@@ -28,7 +28,8 @@ router.post('/generate-pdf',async (req:Request<{},{},PDFRequest>,res:Response)=>
    
    if(!url) return;
     await page.goto(url,{
-    waitUntil:'networkidle2',
+    waitUntil:'networkidle0',
+    timeout:60000
    });
 
    await page.addStyleTag({
