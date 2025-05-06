@@ -17,7 +17,13 @@ router.post('/generate-pdf',async (req:Request<{},{},PDFRequest>,res:Response)=>
     ignoreDefaultArgs: ["--disable-extensions"],
     executablePath:puppeteer.executablePath(),
     headless:true,
-    args:['--no-sandbox', '--disable-setuid-sandbox','--single-process','--no-zygote','--use-gl=egl',]
+    args:[
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--single-process',
+      '--no-zygote',
+      '--disable-dev-shm-usage'
+    ]
    });
    const page = await browser.newPage();
    await page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36)")
