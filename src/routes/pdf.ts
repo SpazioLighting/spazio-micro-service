@@ -14,11 +14,13 @@ router.get('/generate-pdf',(req,res)=>{
 router.post('/generate-pdf',async (req:Request<{},{},PDFRequest>,res:Response)=>{
     const {url,fileName = 'document'} = req.body;
    const browser = await puppeteer.launch({
+    ignoreDefaultArgs: ["--disable-extensions"],
     executablePath:puppeteer.executablePath(),
     headless:true,
-    args:['--no-sandbox', '--disable-setuid-sandbox','--single-process','--no-zygote']
+    args:['--no-sandbox', '--disable-setuid-sandbox','--single-process','--no-zygote','--use-gl=egl',]
    });
    const page = await browser.newPage();
+   await page.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36)")
    await page.evaluate((title:string)=>{
     document.title = title;
    },fileName);
