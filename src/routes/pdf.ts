@@ -1,6 +1,7 @@
 import express,{ Request,Response } from "express";
 import puppeteer from "puppeteer";
-
+import os from 'os'
+import path  from "path";
 interface PDFRequest {
     url:string,
     fileName?:string
@@ -13,6 +14,7 @@ router.get('/generate-pdf',(req,res)=>{
 })
 router.post('/generate-pdf',async (req:Request<{},{},PDFRequest>,res:Response)=>{
     const {url,fileName = 'document'} = req.body;
+    const filePath = path.join(os.tmpdir(),`${fileName}.pdf`);
    const browser = await puppeteer.launch({
     ignoreDefaultArgs: ["--disable-extensions"],
     executablePath:puppeteer.executablePath(),
@@ -47,7 +49,7 @@ router.post('/generate-pdf',async (req:Request<{},{},PDFRequest>,res:Response)=>
     `
   });
    await page.pdf({
-    path:`${"../" + fileName+'.pdf'}`,
+    path:filePath,
     printBackground:true,
      format:"LEDGER",
      landscape:true,
