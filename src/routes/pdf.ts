@@ -20,7 +20,6 @@ router.post('/generate-pdf',async (req:Request<{},{},PDFRequest>,res:Response)=>
     args:[
       '--no-sandbox',
       '--disable-setuid-sandbox',
-      '--single-process',
       '--no-zygote',
       '--disable-dev-shm-usage'
     ]
@@ -36,7 +35,7 @@ router.post('/generate-pdf',async (req:Request<{},{},PDFRequest>,res:Response)=>
    
    if(!url) return;
     await page.goto(url,{
-    waitUntil:'networkidle0',
+    waitUntil:'networkidle2',
     timeout:60000
    });
 
