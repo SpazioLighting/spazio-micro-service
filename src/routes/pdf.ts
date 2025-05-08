@@ -2,6 +2,7 @@ import express,{ Request,Response } from "express";
 import puppeteer from "puppeteer";
 import os from 'os'
 import path  from "path";
+import { statSync } from "fs";
 interface PDFRequest {
     url:string,
     fileName?:string
@@ -15,6 +16,7 @@ router.get('/generate-pdf',(req,res)=>{
 router.post('/generate-pdf',async (req:Request<{},{},PDFRequest>,res:Response)=>{
     const {url,fileName = 'document'} = req.body;
     const filePath = path.join(os.tmpdir(),`${fileName}.pdf`);
+   
    const browser = await puppeteer.launch({
     ignoreDefaultArgs: ["--disable-extensions"],
     executablePath:puppeteer.executablePath(),
@@ -60,8 +62,18 @@ router.post('/generate-pdf',async (req:Request<{},{},PDFRequest>,res:Response)=>
         bottom:'100px'
      },
      pageRanges:"1-1"
-   })
-   res.status(201).json({message:"created a PDF"})
+   });
+   const stats = statSync(filePath);
+   if (stats.size === 0) {
+    console.error('Generated PDF is empty')
+   }
+   res.download(filePath,fileName,err =>{
+    if(err){
+      console.error('Error Sending PDF:',err);
+      res.status(500).json({message:'Internal server error during PDF generation'});
+    }
+   });
+ browser.close();
 });
 
 export default router;
