@@ -1,7 +1,10 @@
 import express from "express";
 import cors from "cors"
 import dotenv from "dotenv";
+import { runDB } from "./config/mongo-config";
 import pdfRoutes from './routes/pdf'
+import countFilesRoutes from './routes/download-counter'
+runDB()
 dotenv.config()
 
 const app = express();
@@ -20,6 +23,7 @@ app.get('/',(req,res)=>{
     
 })
 app.use('/api',pdfRoutes);
+app.use('/api',countFilesRoutes);
 
 app.listen(port,()=>{
     console.log(`Server running at http://localhost:${port}`);
