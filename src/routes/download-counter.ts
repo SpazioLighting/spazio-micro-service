@@ -2,12 +2,22 @@ import express,{ Request,Response } from "express";
 import CountModelSchema from "../models/count.model";
 
 const router = express.Router();
-console.log("outside !!!");
 
-router.get('/count-files',(req,res)=>{
-   res.send("aweya")
+
+router.get('/count-files',async (req,res)=>{
+try {
+    const count = await CountModelSchema.findOne({name:'global'});
+  res.status(200).json({
+    message:"Success",
+    count
+  });
+} catch (error) {
+    throw new Error(error as string);
     
-})
+}  
+    
+});
+
 router.post('/count-files',async(req:Request,res:Response)=>{
     try {
        const stat = CountModelSchema.findOneAndUpdate(

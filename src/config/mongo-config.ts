@@ -8,7 +8,6 @@ const password = process.env.MONGO_DB_PASSWORD as string;
 
 export const runDB = ()=>{
     if (URI?.includes('password')) {
-        console.log("Password",password);
         URI = URI.replace("<db_password>",password)
         mongoose.connect(URI)
         .then(()=>{
@@ -17,9 +16,7 @@ export const runDB = ()=>{
         })
         .catch((error)=>{
             console.log("Naaah it its not connected !!!!!!");
-            throw new Error(error);
-            
-            
+            throw new Error(error);           
             
         })
         
