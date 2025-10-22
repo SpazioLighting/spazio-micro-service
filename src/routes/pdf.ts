@@ -5,7 +5,7 @@ interface PDFRequest {
   url: string;
   fileName?: string;
 }
-
+type PDFResponse = Buffer | { message: string };
 const router = express.Router();
 
 // Health check
@@ -64,7 +64,10 @@ async function getPage(): Promise<Page> {
   return page;
 }
 
-const generatePDF: RequestHandler<{}, any, PDFRequest> = async (req, res) => {
+const generatePDF: RequestHandler<{}, PDFResponse, PDFRequest> = async (
+  req,
+  res
+) => {
   const { url, fileName = 'document' } = req.body;
   if (!url) {
     res.status(400).json({ message: 'URL is required' });
