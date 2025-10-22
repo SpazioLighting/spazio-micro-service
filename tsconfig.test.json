@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "types": ["node", "@playwright/test"],
+    "types": ["@playwright/test"],
     "outDir": "./dist-tests"
   },
   "include": ["src/tests/**/*", "playwright.config.ts"]
